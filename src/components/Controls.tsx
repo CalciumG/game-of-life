@@ -1,7 +1,7 @@
 "use client";
 
 import { useStore } from "@/context/store";
-import useGameOfLife from "@/hooks/useGameOfLife";
+import { useGameOfLife } from "@/hooks/useGameOfLife";
 import { generateEmptyGrid, min, max } from "@/utils/gridUtils";
 
 type ControlsProps = {

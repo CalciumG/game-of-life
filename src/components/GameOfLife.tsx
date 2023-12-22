@@ -6,7 +6,7 @@ import { generateEmptyGrid } from "@/utils/gridUtils";
 import { Controls } from "./Controls";
 import { Grid } from "./Grid";
 
-export default function GameOfLife() {
+export function GameOfLife() {
   const { numRows, numCols, grid, setGrid } = useStore();
 
   useEffect(() => {

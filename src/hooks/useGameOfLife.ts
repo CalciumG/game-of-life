@@ -5,7 +5,7 @@ import { operations } from "@/utils/gridUtils";
 
 type Grid = number[][];
 
-export default function useGameOfLife() {
+export const useGameOfLife = () => {
   const grid = useStore((state) => state.grid);
   const setGrid = useStore((state) => state.setGrid);
   const setAlive = useStore((state) => state.setAlive);
@@ -61,4 +61,4 @@ export default function useGameOfLife() {
     nextStep,
     updateCell,
   };
-}
+};

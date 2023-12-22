@@ -4,20 +4,13 @@ export const min = 3;
 export const max = 100;
 
 export const generateEmptyGrid = (
-  rowCount = DEFAULT_COL_COUNT,
-  colCount = DEFAULT_ROW_COUNT,
+  rowCount = DEFAULT_ROW_COUNT,
+  colCount = DEFAULT_COL_COUNT
 ) => {
-  const rows = [];
+  rowCount = Math.max(rowCount, min);
+  colCount = Math.max(colCount, min);
 
-  rowCount = rowCount >= min ? rowCount : DEFAULT_ROW_COUNT;
-  colCount = colCount >= min ? colCount : DEFAULT_COL_COUNT;
-
-  if (rowCount >= 3 && colCount >= 3) {
-    for (let i = 0; i < rowCount; i++) {
-      rows.push(Array.from(Array(colCount), () => 0));
-    }
-  }
-  return rows;
+  return Array.from({ length: rowCount }, () => Array(colCount).fill(0));
 };
 
 export const operations = [

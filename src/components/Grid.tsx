@@ -1,7 +1,7 @@
 "use client";
 
 import { useStore } from "@/context/store";
-import useGameOfLife from "@/hooks/useGameOfLife";
+import { useGameOfLife } from "@/hooks/useGameOfLife";
 
 export const Grid: React.FC = () => {
   const { updateCell } = useGameOfLife();
