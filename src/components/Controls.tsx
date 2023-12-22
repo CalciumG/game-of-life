@@ -9,7 +9,7 @@ type ControlsProps = {
 };
 
 export const Controls: React.FC<ControlsProps> = () => {
-  const { nextStep } = useGameOfLife();
+  const { nextStep, countAlive } = useGameOfLife();
   const numCols = useStore((state) => state.numCols);
   const numRows = useStore((state) => state.numRows);
   const alive = useStore((state) => state.alive);
@@ -27,6 +27,12 @@ export const Controls: React.FC<ControlsProps> = () => {
     setNumRows(numRows);
     setAlive(0);
     setGrid(generateEmptyGrid(numRows, numCols));
+  };
+
+  const handleSeed = (): void => {
+    const seededGrid = generateEmptyGrid(numRows, numCols, 0.1); // 10% density
+    setGrid(seededGrid);
+    setAlive(countAlive(seededGrid)); // Update the alive count after seeding
   };
 
   return (
@@ -67,6 +73,9 @@ export const Controls: React.FC<ControlsProps> = () => {
       />
 
       <div>
+        <button data-test="seed" onClick={handleSeed}>
+          Seed
+        </button>
         <button data-test="next" onClick={handleNextStep}>
           Next
         </button>

@@ -5,12 +5,12 @@ export const max = 100;
 
 export const generateEmptyGrid = (
   rowCount = DEFAULT_ROW_COUNT,
-  colCount = DEFAULT_COL_COUNT
+  colCount = DEFAULT_COL_COUNT,
+  density = 0
 ) => {
-  rowCount = Math.max(rowCount, min);
-  colCount = Math.max(colCount, min);
-
-  return Array.from({ length: rowCount }, () => Array(colCount).fill(0));
+  return Array.from({ length: rowCount }, () =>
+    Array.from({ length: colCount }, () => (Math.random() < density ? 1 : 0))
+  );
 };
 
 export const operations = [
