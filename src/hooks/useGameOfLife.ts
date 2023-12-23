@@ -1,5 +1,6 @@
 import { produce } from "immer";
 import { useCallback } from "react";
+import { useRef, useEffect } from "react";
 import { useStore } from "@/context/store";
 import { operations } from "@/utils/gridUtils";
 
@@ -10,12 +11,19 @@ export const useGameOfLife = () => {
   const setGrid = useStore((state) => state.setGrid);
   const setAlive = useStore((state) => state.setAlive);
 
+  const gridRef = useRef(grid);
+  useEffect(() => {
+    gridRef.current = grid;
+  }, [grid]);
+
   const countAlive = (grid: Grid): number =>
     grid.flat().reduce((acc, cell) => acc + cell, 0);
 
   const nextStep = useCallback(
     (numRows: number, numCols: number): void => {
-      const newGrid = produce(grid, (gridCopy: Grid) => {
+      const currentGrid = gridRef.current;
+
+      const newGrid = produce(currentGrid, (gridCopy: Grid) => {
         for (let row = 0; row < numRows; row++) {
           for (let col = 0; col < numCols; col++) {
             let neighbors = 0;
@@ -28,13 +36,13 @@ export const useGameOfLife = () => {
                 newCol >= 0 &&
                 newCol < numCols
               ) {
-                neighbors += grid[newRow][newCol];
+                neighbors += currentGrid[newRow][newCol];
               }
             });
 
             if (neighbors < 2 || neighbors > 3) {
               gridCopy[row][col] = 0;
-            } else if (grid[row][col] === 0 && neighbors === 3) {
+            } else if (currentGrid[row][col] === 0 && neighbors === 3) {
               gridCopy[row][col] = 1;
             }
           }
@@ -44,7 +52,7 @@ export const useGameOfLife = () => {
       setGrid(newGrid);
       setAlive(countAlive(newGrid));
     },
-    [grid, setGrid, setAlive]
+    [setGrid, setAlive]
   );
 
   const updateCell = (row: number, col: number): void => {
