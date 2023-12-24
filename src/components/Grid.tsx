@@ -1,14 +1,39 @@
 "use client";
 
+import { memo } from "react";
 import { useStore } from "@/context/store";
 import { useGameOfLife } from "@/hooks/useGameOfLife";
+
+const cellStyle = {
+  width: 20,
+  height: 20,
+  border: "solid 1px white",
+};
+
+interface CellProps {
+  isAlive: boolean;
+  onClick: () => void;
+}
+
+// memosie cells to avoid rerenders
+const Cell: React.FC<CellProps> = memo(({ isAlive, onClick }) => (
+  <div
+    style={{
+      ...cellStyle,
+      backgroundColor: isAlive ? "grey" : "",
+    }}
+    onClick={onClick}
+  />
+));
+
+Cell.displayName = "Cell";
 
 export const Grid: React.FC = () => {
   const { updateCell } = useGameOfLife();
   const grid = useStore((state) => state.grid);
   const numCols = useStore((state) => state.numCols);
 
-  const handleCellClick = (row: number, col: number): void => {
+  const handleCellClick = (row: number, col: number) => () => {
     updateCell(row, col);
   };
 
@@ -19,18 +44,12 @@ export const Grid: React.FC = () => {
         gridTemplateColumns: `repeat(${numCols}, 20px)`,
       }}
     >
-      {grid.map((rows, i) =>
-        rows.map((k, j) => (
-          <div
-            data-test={`cell-${j}-${i}-${grid[i][j] ? "alive" : "dead"}`}
-            key={`${i}-${j}`}
-            onClick={() => handleCellClick(i, j)}
-            style={{
-              width: 20,
-              height: 20,
-              backgroundColor: grid[i][j] ? "grey" : "",
-              border: "solid 1px white",
-            }}
+      {grid.map((row, rowIndex) =>
+        row.map((cell, colIndex) => (
+          <Cell
+            key={`${rowIndex}-${colIndex}`}
+            isAlive={cell === 1}
+            onClick={handleCellClick(rowIndex, colIndex)}
           />
         ))
       )}
