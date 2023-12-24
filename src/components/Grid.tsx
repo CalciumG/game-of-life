@@ -1,6 +1,6 @@
 "use client";
 
-import { memo } from "react";
+import React from "react";
 import { useStore } from "@/context/store";
 import { useGameOfLife } from "@/hooks/useGameOfLife";
 
@@ -15,8 +15,7 @@ interface CellProps {
   onClick: () => void;
 }
 
-// memosie cells to avoid rerenders
-const Cell: React.FC<CellProps> = memo(({ isAlive, onClick }) => (
+const Cell: React.FC<CellProps> = React.memo(({ isAlive, onClick }) => (
   <div
     style={{
       ...cellStyle,
