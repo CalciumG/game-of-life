@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useRef, useState, useEffect, useCallback } from "react";
+import { produce } from "immer";
 import { useStore } from "@/context/store";
 import { useGameOfLife } from "@/hooks/useGameOfLife";
 import { generateEmptyGrid, min, max, shapes } from "@/utils/gridUtils";
-import { produce } from "immer";
 
 type ControlsProps = {
   grid: number[][];
@@ -13,15 +13,9 @@ type ControlsProps = {
 export const Controls: React.FC<ControlsProps> = () => {
   const intervalRef = useRef<NodeJS.Timeout | number | null>(null);
   const [seeded, setSeeded] = useState(false);
-
   const { nextStep, countAlive } = useGameOfLife();
-  const numCols = useStore((state) => state.numCols);
-  const numRows = useStore((state) => state.numRows);
-  const alive = useStore((state) => state.alive);
-  const setNumCols = useStore((state) => state.setNumCols);
-  const setNumRows = useStore((state) => state.setNumRows);
-  const setAlive = useStore((state) => state.setAlive);
-  const setGrid = useStore((state) => state.setGrid);
+  const { numCols, numRows, alive, setNumCols, setNumRows, setAlive, setGrid } =
+    useStore((state) => state);
 
   const handleNextStep = useCallback(() => {
     nextStep(numRows, numCols);
@@ -36,6 +30,14 @@ export const Controls: React.FC<ControlsProps> = () => {
     setNumRows(numRows);
     setAlive(0);
     setGrid(generateEmptyGrid(numRows, numCols));
+    setSeeded(false);
+  };
+
+  const handleStop = () => {
+    if (intervalRef.current !== null) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
     setSeeded(false);
   };
 
@@ -83,14 +85,6 @@ export const Controls: React.FC<ControlsProps> = () => {
       }
     };
   }, [seeded, handleNextStep]);
-
-  const handleStop = () => {
-    if (intervalRef.current !== null) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
-    setSeeded(false);
-  };
 
   return (
     <div className="flex flex-row items-center justify-center space-x-2">
