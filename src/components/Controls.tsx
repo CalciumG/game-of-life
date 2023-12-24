@@ -1,19 +1,17 @@
 "use client";
 
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import { useStore } from "@/context/store";
 import { useGameOfLife } from "@/hooks/useGameOfLife";
 import { generateEmptyGrid, min, max, shapes } from "@/utils/gridUtils";
 import { produce } from "immer";
-import { useState, useEffect, useCallback, SetStateAction } from "react";
 
 type ControlsProps = {
   grid: number[][];
 };
 
 export const Controls: React.FC<ControlsProps> = () => {
-  const [intervalId, setIntervalId] = useState<NodeJS.Timeout | number | null>(
-    null
-  );
+  const intervalRef = useRef<NodeJS.Timeout | number | null>(null);
   const [seeded, setSeeded] = useState(false);
 
   const { nextStep, countAlive } = useGameOfLife();
@@ -25,14 +23,14 @@ export const Controls: React.FC<ControlsProps> = () => {
   const setAlive = useStore((state) => state.setAlive);
   const setGrid = useStore((state) => state.setGrid);
 
-  const handleNextStep = useCallback((): void => {
+  const handleNextStep = useCallback(() => {
     nextStep(numRows, numCols);
-  }, [nextStep, numRows, numCols]);
+  }, [numRows, numCols]);
 
-  const handleReset = (): void => {
-    if (intervalId) {
-      clearInterval(intervalId);
-      setIntervalId(null);
+  const handleReset = () => {
+    if (intervalRef.current !== null) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
     }
     setNumCols(numCols);
     setNumRows(numRows);
@@ -41,10 +39,10 @@ export const Controls: React.FC<ControlsProps> = () => {
     setSeeded(false);
   };
 
-  const handleSeed = (): void => {
+  const handleSeed = () => {
     const shapeKeys = Object.keys(shapes);
-
     let seededGrid = generateEmptyGrid(numRows, numCols);
+
     for (let i = 0; i < 10; i++) {
       const randomShapeKey =
         shapeKeys[Math.floor(Math.random() * shapeKeys.length)];
@@ -71,36 +69,32 @@ export const Controls: React.FC<ControlsProps> = () => {
 
   useEffect(() => {
     if (seeded) {
-      const newIntervalId = setInterval(handleNextStep, 300) as
-        | NodeJS.Timeout
-        | number;
-
-      setIntervalId(newIntervalId);
+      intervalRef.current = window.setInterval(handleNextStep, 300);
     } else {
-      if (intervalId !== null) {
-        clearInterval(intervalId);
-        setIntervalId(null);
+      if (intervalRef.current !== null) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
       }
     }
 
     return () => {
-      if (intervalId !== null) {
-        clearInterval(intervalId);
+      if (intervalRef.current !== null) {
+        clearInterval(intervalRef.current);
       }
     };
-  }, [seeded, numRows, numCols, handleNextStep, intervalId]);
+  }, [seeded, handleNextStep]);
 
-  const handleStop = (): void => {
-    if (intervalId) {
-      clearInterval(intervalId);
-      setIntervalId(null);
-      setSeeded(false);
+  const handleStop = () => {
+    if (intervalRef.current !== null) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
     }
+    setSeeded(false);
   };
 
   return (
     <div className="flex flex-row items-center justify-center space-x-2">
-      <label htmlFor="columns">Columns: </label>
+      <label htmlFor="columns">Columns:</label>
       <input
         data-test="x"
         className="text-black"
@@ -113,7 +107,7 @@ export const Controls: React.FC<ControlsProps> = () => {
           setAlive(0);
         }}
       />
-      <label htmlFor="rows">Rows: </label>
+      <label htmlFor="rows">Rows:</label>
       <input
         data-test="y"
         className="text-black"
@@ -126,7 +120,7 @@ export const Controls: React.FC<ControlsProps> = () => {
           setAlive(0);
         }}
       />
-      <label htmlFor="alive">Alive: </label>
+      <label htmlFor="alive">Alive:</label>
       <input
         data-test="alive-count"
         className="text-black bg-white"
@@ -134,7 +128,6 @@ export const Controls: React.FC<ControlsProps> = () => {
         type="number"
         value={alive}
       />
-
       <div>
         <button data-test="seed" onClick={handleSeed}>
           Seed
