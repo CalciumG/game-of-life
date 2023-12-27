@@ -38,13 +38,6 @@ export const shapes: ShapeDictionary = {
     [1, 2],
     [2, 2],
   ],
-  square: [
-    // A simple 2x2 square (Still Life)
-    [0, 0],
-    [0, 1],
-    [1, 0],
-    [1, 1],
-  ],
   blinker: [
     // A vertical line that oscillates to horizontal (Period 2 Oscillator)
     [0, 0],
@@ -229,6 +222,41 @@ export const shapes: ShapeDictionary = {
     [2, 5],
     [2, 6],
     [2, 7],
+  ],
+  smallBlob: [
+    // A small blob-like shape
+    [0, 1],
+    [1, 0],
+    [1, 1],
+  ],
+  tinyGlider: [
+    // A very small glider
+    [0, 1],
+    [1, 2],
+    [2, 0],
+    [2, 1],
+    [2, 2],
+  ],
+  miniSquare: [
+    // A tiny 2x2 square
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [1, 1],
+  ],
+  littleBoat: [
+    // A small boat-like shape
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [1, 2],
+    [2, 1],
+  ],
+  microLine: [
+    // A very small line
+    [0, 0],
+    [0, 1],
+    [0, 2],
   ],
 };
 
