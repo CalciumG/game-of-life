@@ -124,17 +124,19 @@ export const Controls: React.FC<ControlsProps> = () => {
         type="number"
         value={alive}
       />
-      <div>
-        <button data-test="seed" onClick={handleSeed}>
-          Seed
-        </button>
-        <button data-test="next" onClick={handleNextStep}>
-          Next
-        </button>
-        <button data-test="reset" onClick={handleReset}>
-          Reset
-        </button>
-        <button onClick={handleStop}>Stop</button>
+      <div className="flex flex-col items-center justify-center space-y-4">
+        <div className="flex items-center space-x-2">
+          <button data-test="seed" onClick={handleSeed}>
+            Seed
+          </button>
+          <button data-test="next" onClick={handleNextStep}>
+            Next
+          </button>
+          <button data-test="reset" onClick={handleReset}>
+            Reset
+          </button>
+          <button onClick={handleStop}>Stop</button>
+        </div>
       </div>
     </div>
   );
