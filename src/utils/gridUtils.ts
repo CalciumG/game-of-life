@@ -1,7 +1,7 @@
 import { produce } from "immer";
 
-export const DEFAULT_ROW_COUNT = 100;
-export const DEFAULT_COL_COUNT = 100;
+export const DEFAULT_ROW_COUNT = 50;
+export const DEFAULT_COL_COUNT = 50;
 
 export const min = 3;
 export const max = 100;

@@ -5,8 +5,8 @@ import { useStore } from "@/context/store";
 import { useGameOfLife } from "@/hooks/useGameOfLife";
 
 const cellStyle = {
-  width: 7,
-  height: 7,
+  width: 12,
+  height: 12,
   border: "solid 0.1px grey",
 };
 
@@ -40,7 +40,7 @@ export const Grid: React.FC = () => {
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: `repeat(${numCols}, 7px)`,
+        gridTemplateColumns: `repeat(${numCols}, 12px)`,
       }}
     >
       {grid.map((row, rowIndex) =>

@@ -12,7 +12,7 @@ type ControlsProps = {
 
 export const Controls: React.FC<ControlsProps> = () => {
   const intervalRef = useRef<NodeJS.Timeout | number | null>(null);
-  const [seeded, setSeeded] = useState(false);
+  const [playing, setPlaying] = useState(false);
   const { nextStep, countAlive } = useGameOfLife();
   const { numCols, numRows, alive, setNumCols, setNumRows, setAlive, setGrid } =
     useStore((state) => state);
@@ -30,22 +30,23 @@ export const Controls: React.FC<ControlsProps> = () => {
     setNumRows(numRows);
     setAlive(0);
     setGrid(generateEmptyGrid(numRows, numCols));
-    setSeeded(false);
   };
 
-  const handleStop = () => {
+  const handleTogglePlay = () => {
+    setPlaying(!playing);
+  };
+
+  const handleSeed = () => {
     if (intervalRef.current !== null) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
-    setSeeded(false);
-  };
+    setPlaying(false);
 
-  const handleSeed = () => {
     const shapeKeys = Object.keys(shapes);
     let seededGrid = generateEmptyGrid(numRows, numCols);
 
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 15; i++) {
       const randomShapeKey =
         shapeKeys[Math.floor(Math.random() * shapeKeys.length)];
       const randomShape = shapes[randomShapeKey];
@@ -66,11 +67,10 @@ export const Controls: React.FC<ControlsProps> = () => {
 
     setGrid(seededGrid);
     setAlive(countAlive(seededGrid));
-    setSeeded(true);
   };
 
   useEffect(() => {
-    if (seeded) {
+    if (playing) {
       intervalRef.current = window.setInterval(handleNextStep, 300);
     } else {
       if (intervalRef.current !== null) {
@@ -82,9 +82,10 @@ export const Controls: React.FC<ControlsProps> = () => {
     return () => {
       if (intervalRef.current !== null) {
         clearInterval(intervalRef.current);
+        intervalRef.current = null;
       }
     };
-  }, [seeded, handleNextStep]);
+  }, [playing, handleNextStep]);
 
   return (
     <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4 p-4">
@@ -121,10 +122,12 @@ export const Controls: React.FC<ControlsProps> = () => {
       />
       <div className="flex flex-col sm:flex-row w-full sm:w-auto space-y-2 sm:space-y-0 sm:space-x-2">
         <div className="flex items-center space-x-2">
+          <button onClick={handleTogglePlay}>
+            {playing ? <span>Stop ⏯</span> : <span>Play ⏯</span>}
+          </button>
           <button onClick={handleSeed}>Seed</button>
           <button onClick={handleNextStep}>Next</button>
           <button onClick={handleReset}>Reset</button>
-          <button onClick={handleStop}>Stop</button>
         </div>
       </div>
     </div>

@@ -1,6 +1,11 @@
-## About
+# About
 
 Conway's game of life built with a couple starting seed shapes.
+
+[https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life](Wiki page)
+
+You can click squares on the grid to fill them with life and then click next to see the next steps, or alternatively press play to step through automatically.
+Press Seed to prepopulate with a bunch of random shapes and watch it pan out.
 
 ## Getting Started
 
