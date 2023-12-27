@@ -45,7 +45,9 @@ export const Controls: React.FC<ControlsProps> = () => {
     const shapeKeys = Object.keys(shapes);
     let seededGrid = generateEmptyGrid(numRows, numCols);
 
-    for (let i = 0; i < 10; i++) {
+    // Increase the number of shapes placed
+    for (let i = 0; i < 30; i++) {
+      // Increased from 15 to 30
       const randomShapeKey =
         shapeKeys[Math.floor(Math.random() * shapeKeys.length)];
       const randomShape = shapes[randomShapeKey];

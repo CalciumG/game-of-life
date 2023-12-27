@@ -1,13 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { memo } from "react";
 import { useStore } from "@/context/store";
 import { useGameOfLife } from "@/hooks/useGameOfLife";
 
 const cellStyle = {
-  width: 20,
-  height: 20,
-  border: "solid 1px white",
+  width: 7,
+  height: 7,
+  border: "solid 0.1px grey",
 };
 
 interface CellProps {
@@ -15,11 +15,11 @@ interface CellProps {
   onClick: () => void;
 }
 
-const Cell: React.FC<CellProps> = React.memo(({ isAlive, onClick }) => (
+const Cell: React.FC<CellProps> = memo(({ isAlive, onClick }) => (
   <div
     style={{
       ...cellStyle,
-      backgroundColor: isAlive ? "grey" : "",
+      backgroundColor: isAlive ? "yellow" : "",
     }}
     onClick={onClick}
   />
@@ -40,7 +40,7 @@ export const Grid: React.FC = () => {
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: `repeat(${numCols}, 20px)`,
+        gridTemplateColumns: `repeat(${numCols}, 7px)`,
       }}
     >
       {grid.map((row, rowIndex) =>
