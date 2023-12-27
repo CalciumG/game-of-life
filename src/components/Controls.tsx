@@ -90,7 +90,6 @@ export const Controls: React.FC<ControlsProps> = () => {
     <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4 p-4">
       <label htmlFor="columns">Columns:</label>
       <input
-        data-test="x"
         className="text-black rounded p-1"
         type="number"
         min={min}
@@ -103,7 +102,6 @@ export const Controls: React.FC<ControlsProps> = () => {
       />
       <label htmlFor="rows">Rows:</label>
       <input
-        data-test="y"
         className="text-black rounded p-1"
         type="number"
         min={min}
@@ -116,7 +114,6 @@ export const Controls: React.FC<ControlsProps> = () => {
       />
       <label htmlFor="alive">Alive:</label>
       <input
-        data-test="alive-count"
         className="text-black bg-white p-1 rounded"
         disabled={true}
         type="number"
@@ -124,15 +121,9 @@ export const Controls: React.FC<ControlsProps> = () => {
       />
       <div className="flex flex-col sm:flex-row w-full sm:w-auto space-y-2 sm:space-y-0 sm:space-x-2">
         <div className="flex items-center space-x-2">
-          <button data-test="seed" onClick={handleSeed}>
-            Seed
-          </button>
-          <button data-test="next" onClick={handleNextStep}>
-            Next
-          </button>
-          <button data-test="reset" onClick={handleReset}>
-            Reset
-          </button>
+          <button onClick={handleSeed}>Seed</button>
+          <button onClick={handleNextStep}>Next</button>
+          <button onClick={handleReset}>Reset</button>
           <button onClick={handleStop}>Stop</button>
         </div>
       </div>
