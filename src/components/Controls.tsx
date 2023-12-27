@@ -45,9 +45,7 @@ export const Controls: React.FC<ControlsProps> = () => {
     const shapeKeys = Object.keys(shapes);
     let seededGrid = generateEmptyGrid(numRows, numCols);
 
-    // Increase the number of shapes placed
     for (let i = 0; i < 30; i++) {
-      // Increased from 15 to 30
       const randomShapeKey =
         shapeKeys[Math.floor(Math.random() * shapeKeys.length)];
       const randomShape = shapes[randomShapeKey];
@@ -89,11 +87,11 @@ export const Controls: React.FC<ControlsProps> = () => {
   }, [seeded, handleNextStep]);
 
   return (
-    <div className="flex flex-row items-center justify-center space-x-2">
+    <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4 p-4">
       <label htmlFor="columns">Columns:</label>
       <input
         data-test="x"
-        className="text-black"
+        className="text-black rounded p-1"
         type="number"
         min={min}
         max={max}
@@ -106,7 +104,7 @@ export const Controls: React.FC<ControlsProps> = () => {
       <label htmlFor="rows">Rows:</label>
       <input
         data-test="y"
-        className="text-black"
+        className="text-black rounded p-1"
         type="number"
         min={min}
         max={max}
@@ -119,12 +117,12 @@ export const Controls: React.FC<ControlsProps> = () => {
       <label htmlFor="alive">Alive:</label>
       <input
         data-test="alive-count"
-        className="text-black bg-white"
+        className="text-black bg-white p-1 rounded"
         disabled={true}
         type="number"
         value={alive}
       />
-      <div className="flex flex-col items-center justify-center space-y-4">
+      <div className="flex flex-col sm:flex-row w-full sm:w-auto space-y-2 sm:space-y-0 sm:space-x-2">
         <div className="flex items-center space-x-2">
           <button data-test="seed" onClick={handleSeed}>
             Seed

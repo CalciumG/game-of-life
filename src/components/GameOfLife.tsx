@@ -14,9 +14,9 @@ export const GameOfLife = () => {
   }, [numRows, numCols, setGrid]);
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <>
       <Controls grid={grid} />
       <Grid />
-    </div>
+    </>
   );
 };
